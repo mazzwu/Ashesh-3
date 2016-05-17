@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(){
+  FILE *col= fopen("collection.txt", "r");
+  char string[10000];
+    while(fscanf(col, "%s", string) !=EOF){
+      printf("%s\n",string);
+    }
+    
+  fclose(col);
+    
+    return 0; 
+
+}
+      
