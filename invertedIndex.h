@@ -1,0 +1,1 @@
+#ifndef INVERTEDINDEX_H#define INVERTEDINDEX_H#include <stdio.h>#include "list.h"#include "graph.h"List getInvertedIndex(List l, File *f); // reads in #endif
