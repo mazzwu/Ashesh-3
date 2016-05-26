@@ -11,7 +11,7 @@
 // data structures representing DLList
 
 // create a new DLListNode (private function)
-static DLListNode *newDLListNode(char *it)
+DLListNode *newDLListNode(char *it)
 {
     DLListNode *new;
     new = malloc(sizeof(DLListNode));
@@ -74,7 +74,7 @@ DLList getDLList(FILE *in)
     while (fscanf(in,"%s\n",line) != EOF) {
        
         DLListAfter(L,line);
-        //printf("line %s\n", line);
+        printf("line %s\n", line);
     }
     //showDLList(stdout, L);
 //    printf("list length %d\n",DLListLength(L));
@@ -97,12 +97,14 @@ DLList getDLList(FILE *in)
     return L;
 }
 // display items from a DLList, one per line
-void showDLList(FILE *out, DLList L)
+void showDLList(DLList L)
 {
-    assert(out != NULL); assert(L != NULL);
+   // assert(out != NULL);
+    assert(L != NULL);
     DLListNode *curr;
+    printf("here\n");
     for (curr = L->first; curr != NULL; curr = curr->next)
-        fprintf(out,"%s\n",curr->data);
+        printf("%s\n",curr->data);
 }
 
 // check sanity of a DLList (for testing)
@@ -229,6 +231,7 @@ void DLListAfter(DLList L, char *it)
         L->first = new;
         L->last = new;
         L->curr = new;
+        L->nitems++;
         return;
     }
     assert(L != NULL);
@@ -297,4 +300,20 @@ int DLListIsEmpty(DLList L)
 {
     return (L->nitems == 0);
 }
+DLList listcopy(DLList L) {
+    
+    DLList copy = newDLList();
+    DLListNode *temp = newDLListNode(L->first->data);
+    temp = L->first;
+    
+    while(temp->next != NULL) {
+        DLListAfter(copy, temp->data);
+        temp = temp->next;
+        //printf("DLList copy %s\n", temp->data);
+    }
+     DLListAfter(copy, temp->data);
+    
+    return copy;
+}
+
 

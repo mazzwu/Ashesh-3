@@ -31,7 +31,7 @@ typedef struct DLListRep {
 
 // create a new empty DLList
 DLList newDLList();
-
+DLListNode *newDLListNode(char *it);
 // free up all space associated with list
 void freeDLList(DLList);
 
@@ -39,7 +39,7 @@ void freeDLList(DLList);
 // assume that the file is open for reading
 DLList getDLList(FILE *);
 // display list on output, one item per line
-void showDLList(FILE *, DLList);
+void showDLList(DLList);
 
 // check sanity of a DLList (for testing)
 int validDLList(DLList);
@@ -74,5 +74,6 @@ int DLListLength(DLList);
 
 // is the list empty?
 int DLListIsEmpty(DLList);
+DLList listcopy(DLList L);
 
 #endif
