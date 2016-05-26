@@ -1,0 +1,68 @@
+int * findPath(Graph g, Vertex src, Vertex dest){
+    
+    assert(g != NULL);
+    int isFound = 0;
+    
+    
+    int *visited = calloc(g->nV, sizeof(int));
+    
+    Queue q = newQueue(); //create a new queue
+    QueueJoin(q,src); //add src to the queue
+    
+    int i = 0;
+    Vertex y = 0;
+    Vertex x = 0; 
+
+    
+    while (!QueueIsEmpty(q) && !isFound) {
+        
+        y = QueueLeave(q);
+        x = QueueLeave(q);
+        
+        
+        for( i = 0;i < g->nV; i++) {
+            if (i == y) {
+                visited[i] = y;
+            }
+        }
+        for (y = 0; y < g->nV; y++) {
+            
+            if(g->edges[y][x] <= max && g->edges[x][y] != 0) { //if the edges removed from queue share an edge with a weight less than = max && is not 0.
+                if(!visited[y]) { //if we havent visited this vertex.
+                    path[y] = x; // add to the shortest path array
+                    
+                }
+                if (y == dest){
+                    isFound = 1;
+                    break;
+                }
+                if (!visited[y]) {
+                    QueueJoin(q, y);
+                    visited[y] = 1;
+                }
+            }
+        }
+    }
+    
+    Vertex *array = malloc(g->nV * sizeof(Vertex));
+    
+    int numV = 0;
+    int count = 0;
+    if (isFound) {
+        Vertex v;
+        for (v = dest; v != src; v = path[v], count++) {
+            path[count] = v; //shortest path array
+           
+        }
+      array[count] = src;
+        while(count != -1) {
+            path[numV] = array[count];
+            count--;
+            numV++;
+        }
+    }
+    free(visited);
+    
+    return array;
+    
+}
