@@ -1,16 +1,20 @@
-
-# COMP1927 Assignment 2
 CC=gcc
 CFLAGS=-Wall -Werror -g
-OBJS= list.o pagerank.o graph.o main.o
+OBJS=bst.o BSTree.o Queue.o DLList.o
+BINS=bst mkrand mkpref
 
-page : $(OBJS)
-$(CC) -o page $(OBJS)
+all : $(BINS)
 
+bst : $(OBJS)
+	$(CC) -o bst $(OBJS)
 
-list.o : list.c list.h
-pagerank.o : pagerank.c pagerank.h
-graph.o : graph.c graph.h
-main.o : main.c 
+bst.o : bst.c BSTree.h
+BSTree.o : BSTree.c BSTree.h Queue.h
+Queue.o : Queue.c Queue.h
+DLList.o : DLList.c DLList.h
+
+tests : bst
+	cd tests ; make
+
 clean :
-rm -f  $(OBJS) core 
+	rm -fr $(BINS) $(OBJS) core *.dSYM tests/*.observed

@@ -6,7 +6,7 @@
 #define DLLIST_H
 
 #include <stdio.h>
-#include "DLList.h"
+
 
 // External view of DLList
 // Implementation given in DLList.c
@@ -14,32 +14,18 @@
 
 typedef struct DLListRep *DLList;
 
-typedef struct DLListNode {
-    char   *data;  // data of this list item (string)
-    struct DLListNode *prev;
-    // pointer previous node in list
-    struct DLListNode *next;
-    // pointer to next node in list
-} DLListNode;
-
-typedef struct DLListRep {
-    int  nitems;      // count of items in list
-    DLListNode *first; // first node in list
-    DLListNode *curr;  // current node in list
-    DLListNode *last;  // last node in list
-} DLListRep;
-
 // create a new empty DLList
 DLList newDLList();
-DLListNode *newDLListNode(char *it);
+
 // free up all space associated with list
 void freeDLList(DLList);
 
 // create an DLList by reading items from a file
 // assume that the file is open for reading
 DLList getDLList(FILE *);
+
 // display list on output, one item per line
-void showDLList(DLList);
+void showDLList(FILE *, DLList);
 
 // check sanity of a DLList (for testing)
 int validDLList(DLList);
@@ -74,6 +60,11 @@ int DLListLength(DLList);
 
 // is the list empty?
 int DLListIsEmpty(DLList);
-DLList listcopy(DLList L);
+
+//function which checks that the before function operates correctly
+int testBefore();
+
+//function which checks that the fucntion after operates correctly
+int testAfter();
 
 #endif
