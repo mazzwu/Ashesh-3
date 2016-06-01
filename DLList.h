@@ -24,11 +24,15 @@ void freeDLList(DLList);
 // assume that the file is open for reading
 DLList getDLList(FILE *);
 
+DLList FileAppendDLList(FILE *, DLList);
+
+DLList FileAppendDLList2(FILE *, DLList, DLList);
+DLList AlphaAppend(FILE *, DLList, DLList);
+
 // display list on output, one item per line
 void showDLList(FILE *, DLList);
 
-// check sanity of a DLList (for testing)
-int validDLList(DLList);
+
 
 // return item at current position
 char *DLListCurrent(DLList);
@@ -49,11 +53,6 @@ void DLListBefore(DLList, char *);
 // new item becomes current item
 void DLListAfter(DLList, char *);
 
-// delete current item
-// new item becomes item following current
-// if current was last, current becomes new last
-// if current was only item, current becomes null
-void DLListDelete(DLList);
 
 // return number of elements in a list
 int DLListLength(DLList);
@@ -61,10 +60,14 @@ int DLListLength(DLList);
 // is the list empty?
 int DLListIsEmpty(DLList);
 
-//function which checks that the before function operates correctly
-int testBefore();
+int Length(DLList);
 
-//function which checks that the fucntion after operates correctly
-int testAfter();
+char * help(DLList, int);
+void printList(DLList);
+int elementExists (DLList, char*);
+int elementIsUrl(DLList, char*);
+DLList sort(DLList D);
+char * normalise(char*);
+
 
 #endif

@@ -36,6 +36,8 @@ int BSTreeFind(BSTree, char *);
 // delete a value from a BSTree
 //BSTree BSTreeDelete(BSTree, char *);
 
-BSTree getBSTree();
+BSTree getBSTree(FILE *);
+
+void treeTraverse(BSTree);
 
 #endif

@@ -16,6 +16,7 @@
 #define TOT 1000 /* change to accomodate other sizes, change ONCE here */
 
 
+
 typedef struct BSTNode *BSTLink;
 
 typedef struct BSTNode {
@@ -27,9 +28,9 @@ typedef struct BSTNode {
 static
 BSTLink newBSTNode(char * v)
 {
-	printf("can it not do this?\n");
+	
 	BSTLink new = malloc(sizeof(BSTNode));
-	printf("does it get here?\n");
+
 	assert(new != NULL);
 	new->value = v;
 	new->left = new->right = NULL;
@@ -55,9 +56,9 @@ void dropBSTree(BSTree t)
 // display a BSTree
 void showBSTree(BSTree t)
 {
-	printf("Does it come here? \n");
+	
 	void doShowBSTree(BSTree); // see later
-	printf("What about here? \n");
+	
 
 	doShowBSTree(t);
 }
@@ -151,25 +152,28 @@ int BSTreeNumLeaves(BSTree t)
 // insert a new value into a BSTree
 BSTree BSTreeInsert(BSTree t, char * v)
 {
-	printf("Does it enter this function \n");
+	//printf("does it even enter \n");
+	
 	if (t == NULL){
+		//printf("Checking this\n");
 		
 		return newBSTNode(v);
-		printf("what\n");
+		
 	}
-
-	//printf("does it ignore this?\n");
+	
 
 	else if (strcmp(v,t->value) < 0){
-		
-		printf("hmm\n");
+		//printf("what about this\n");
 
 		t->left = BSTreeInsert(t->left, v);
 	}
-	else if (strcmp(v,t->value) > 0)
+	else if (strcmp(v,t->value) > 0){
+		//printf("I hate life\n");
 		t->right = BSTreeInsert(t->right, v);
-	else // (v == t->value)
-		/* don't insert duplicates */;
+	}
+	else {// (v == t->value)
+		/* don't insert duplicates */
+	}
 	return t;
 }
 
@@ -241,28 +245,23 @@ BSTree BSTreeDelete(BSTree t, int v)
 }
 
 */ 
-
-BSTree getBSTree(){
+// Creates a BST of all the words in a given file 
+BSTree getBSTree(FILE *urlFILE){
 	
 	
-char *sobs[1000];
-BSTree T;
-
-	FILE *urlFILE = fopen("url11.txt", "r");
-	//int i = 0;
-	printf("hate life\n");
+	char *sobs[1000];
+	BSTree T = NULL;
+	
 
 	for(int i= 0; i<1000; i++){
-		printf("it shouldnt though\n");
 		sobs[i] = malloc(1000*sizeof(char));
-		printf("As suspected\n");
 		fscanf(urlFILE, "%s", sobs[i]);
-		printf("lol123\n");
 
-		T = BSTreeInsert(T,sobs[i]);
-		printf("jus checkn \n");
+		char * normalised = normalise(sobs[i]);
+
+		T = BSTreeInsert(T,normalised);
 	}
-	fclose(urlFILE);
+
 	return T;
 
 
@@ -320,6 +319,26 @@ BSTree T;
 
 }
 
+void treeTraverse(BSTNode *T){
+
+	//char * word = NULL; 
+
+	
+	if(T!= NULL)
+{
+	treeTraverse(T->left); // recursively print smaller item
+	printf("%s ",T->value); // print current item
+	//strcpy(T->value, word);
+	treeTraverse(T->right); //
+	return; 
+
+}
+}
+
+
+
+
+
 
 // ASCII tree printer
 // Courtesy: ponnada
@@ -367,18 +386,18 @@ void doShowBSTree(BSTree t)
 {
 	asciinode *proot;
 	int xmin, i;
-	printf("help\n");
+	
 	if (t == NULL) return;
-	printf("here?\n");
+	
 	proot = build_ascii_tree(t);
-	printf("here???\n");
+	
 	compute_edge_lengths(proot);
-	printf("lol line by line \n");
+	
 	for (i = 0; i < proot->height && i < MAX_HEIGHT; i++)
 		lprofile[i] = INFINITY;
 	compute_lprofile(proot, 0, 0);
 	xmin = 0;
-	printf("why why why delilah");
+	
 	for (i = 0; i < proot->height && i < MAX_HEIGHT; i++)
 		xmin = MIN(xmin, lprofile[i]);
 	for (i = 0; i < proot->height; i++) {
@@ -386,7 +405,7 @@ void doShowBSTree(BSTree t)
 		print_level(proot, -xmin, i);
 		printf("\n");
 	}
-	printf("long shot \n");
+	
 	if (proot->height >= MAX_HEIGHT) {
 		printf("(Tree is taller than %d; may be drawn incorrectly.)\n",
 			MAX_HEIGHT);
@@ -564,3 +583,6 @@ void compute_rprofile(asciinode *node, int x, int y)
 	compute_rprofile(node->left, x-node->edge_length-1, y+node->edge_length+1);
 	compute_rprofile(node->right, x+node->edge_length+1, y+node->edge_length+1);
 }
+
+
+
