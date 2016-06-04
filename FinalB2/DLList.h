@@ -26,50 +26,34 @@ DLList getDLList(FILE *);
 
 DLList FileAppendDLList(FILE *, DLList);
 
-DLList FileAppendDLList2(FILE *, DLList, DLList);
 DLList AlphaAppend(FILE *, DLList, DLList);
-
-// display list on output, one item per line
-void showDLList(FILE *, DLList);
-
-
-
-// return item at current position
-char *DLListCurrent(DLList);
-
-// move current position (+ve forward, -ve backward)
-// return 1 if reach end of list during move
-int DLListMove(DLList, int);
-
-// move to specified position in list
-// i'th node, assuming first node has i==1
-int DLListMoveTo(DLList, int);
-
-// insert an item before current item
-// new item becomes current item
-void DLListBefore(DLList, char *);
-
-// insert an item after current item
-// new item becomes current item
-void DLListAfter(DLList, char *);
-
 
 // return number of elements in a list
 int DLListLength(DLList);
 
-// is the list empty?
-int DLListIsEmpty(DLList);
 
 int Length(DLList);
 
+//Given a position in a linked list, the following function
+//Returns the value at at that position.
 char * valueReturn(DLList, int);
+// The following function prints a given linked list 
 void printList(DLList);
+// Given a list, and a word, the following function determines whether a word
+// exists in the list. 
 int elementExists (DLList, char*);
-int elementIsUrl(DLList, char*);
-char * normalise(char*);
-char * removegrammar (char *);
-DLList PureAppend(FILE *, DLList, DLList);
-int LengthForMalloc(DLList);
 
+// Given a list, and a url, the following function determines whether a url
+// exists in the list. 
+int elementIsUrl(DLList, char*);
+// Normalises a given word
+char * normalise(char*);
+
+// Removes grammar from a given word 
+char * removegrammar (char *);
+// Creates a linked list of words in an entire collection. 
+DLList PureAppend(FILE *, DLList, DLList);
+// Calculates the length of a DLList, starting at 1. 
+int LengthForMalloc(DLList);
 
 #endif

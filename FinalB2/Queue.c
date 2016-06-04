@@ -44,22 +44,6 @@ void dropQueue(Queue Q)
 	free(Q);
 }
 
-// display as 3 > 5 > 4 > ...
-void showQueue(Queue Q)
-{
-	QueueNode *curr;
-	assert(Q != NULL);
-	// free list nodes
-	curr = Q->head;
-	while (curr != NULL) {
-		showItem(curr->value);
-		if (curr->next != NULL)
-			printf(" > ");
-		curr = curr->next;
-	}
-	// free queue rep
-	free(Q);
-}
 
 // add item at end of Queue 
 void QueueJoin(Queue Q, Item it)

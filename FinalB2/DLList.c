@@ -142,117 +142,16 @@ DLList FileAppendDLList(FILE *in, DLList L){
     return L;
 }
 
-DLList FileAppendDLList2(FILE *in, DLList L, DLList D){
-    //DLList L;
-    DLListNode *new;
-    char word[1000];
 
-    if(L == NULL){
-        L = newDLList();
-    }
-    
-
-    while (fscanf(in,"%s",word) != EOF) {
-
-        char *value = strdup(trim(word));
-        new = newDLListNode(value);
-
-        if (elementExists(L,value) != 0) continue;
-        if (elementIsUrl(D, value) != 0) continue;
-
-
-        if (L->first== NULL) {
-            L->first = L->last = new;
-        }
-        else {
-            L->last->next = new;
-            new->prev = L->last;
-            L->last = new;
-        }
-        L->nitems++;
-    }   
-    L->curr = L->first;
-    return L;
-}
-
-DLList AlphaAppend(FILE *in, DLList L, DLList D){
-
-    DLListNode *new;
-    char word[1000];
-    DLListNode *curr;
- 
-    while (fscanf(in,"%s",word) != EOF) {
-          
-        char * valueold = strdup(trim(word));
-        char * value = normalise(valueold);
-        new = newDLListNode(value);
-
-        if (elementExists(L,value) != 0) continue;
-        if (elementIsUrl(D, value) != 0) continue;
-
-        if (L->first == NULL) {
-            L->first = new;
-            L->last = new;
-            curr = L->last;
-        }
-
-        else {
-            
-            if(strcmp(new->value,L->last->value)>0){
-            
-                L->last->next = new;
-                new->prev = L->last;
-                L->last = new;
-                curr = L->last;
-            }
-
-                
-            else if (strcmp(new->value,L->last->value)<0){
-
-                while((strcmp(new->value,curr->value)<0) && (curr->prev != NULL)){
-                    curr = curr->prev; 
-                   
-                }
-               
-
-                if(L->nitems == 1){
-                    new->next = curr;
-                    curr->prev = new;  
-                    L->first = new; 
-                    curr = L->last;
-                }
-
-                else if((strcmp(new->value,curr->value)<0)&& (curr->prev == NULL)){   
-                    new->next = curr; 
-                    curr->prev = new;
-                    L->first = new;
-                    curr = L->last; 
-
-                }
-                else {
-                new->next = curr ->next; 
-                new->prev = curr; 
-                curr->next->prev = new; 
-                curr->next = new; 
-                curr = L->last;
-              }
-            }
-        }
-
-        L->nitems++;
-       // printf("After inserting %s, L->nitems = %d \n", value, L->nitems);
-
-    }   
-    L->curr = L->first;
-    return L;
-}
+//The following function takes in a file, inserting each element in 
+// alphabetical order without duplicates. 
 
 DLList PureAppend(FILE *in, DLList L, DLList D){
 
     DLListNode *new;
     char word[1000];
     DLListNode *curr;
-   // printf("Is it even doing this?\n");
+  
  
     while (fscanf(in,"%s",word) != EOF) {
           
@@ -262,7 +161,7 @@ DLList PureAppend(FILE *in, DLList L, DLList D){
         new = newDLListNode(value2);
 
         if (elementExists(L,value2) != 0) continue;
-        //printf("%s does not exist already, proceed \n",value2);
+       
         if (elementIsUrl(D, value2) != 0) continue;
 
         if (L->first == NULL) {
@@ -315,162 +214,11 @@ DLList PureAppend(FILE *in, DLList L, DLList D){
         }
 
         L->nitems++;
-       // printf(GREEN"After inserting %s the list looks like \n"RESET,value2);
-        //printList(L);
-
-       // printf("After inserting %s, L->nitems = %d \n", value, L->nitems);
-
+       
     }   
     L->curr = L->first;
     return L;
 }
-
-
-
-// display items from a DLList, one per line
-void showDLList(FILE *out, DLList L)
-{
-	assert(out != NULL); assert(L != NULL);
-	DLListNode *curr;
-	for (curr = L->first; curr != NULL; curr = curr->next)
-		fprintf(out,"%s\n",curr->value);
-}
-
-
-// return item at current position
-char *DLListCurrent(DLList L)
-{
-	assert(L != NULL); assert(L->curr != NULL);
-	return L->curr->value;
-}
-
-// move current position (+ve forward, -ve backward)
-// return 1 if reach end of list during move
-// if current is currently null, return 1
-int DLListMove(DLList L, int n)
-{
-	assert(L != NULL);
-	if (L->curr == NULL)
-		return 1;
-	else if (n > 0) {
-		while (n > 0 && L->curr->next != NULL) {
-			L->curr = L->curr->next;
-			n--;
-		}
-	}
-	else if (n < 0) {
-		while (n < 0 && L->curr->prev != NULL) {
-			L->curr = L->curr->prev;
-			n++;
-		}
-	}
-	return (L->curr == L->first || L->curr == L->last);
-}
-
-// move to specified position in list
-// i'th node, assuming first node has i==1
-int DLListMoveTo(DLList L, int i)
-{
-	assert(L != NULL); assert(i > 0);
-	L->curr = L->first;
-	return DLListMove(L, i-1);
-
-
-
-}
-
-// insert an item before current item
-// new item becomes current item
-void DLListBefore(DLList L, char *it)
-{
-	assert(L != NULL);
-    //Creates a new node to be placed in the list
-    DLListNode *new = newDLListNode(it);
-    
-
-    //if the list empty
-    if (L->nitems == 0) {
-        L->curr = new;
-        L->last = new;
-        L->first = new;
-        //increases the value of nitems
-        L->nitems++;
-
-    } else {
-        //if the node is being place at the front of the list this also reassigns first as new
-        if (L->curr == L->first) {
-
-            L->first = new;
-            new->next = L->curr;
-            L->curr->prev = new;
-            L->curr = new;
-            L->nitems++;
-            
-        } else {
-            //place the node in the place before current in the list
-            new->next = L->curr;
-            new->prev = L->curr->prev;            
-            L->curr->prev->next = new;
-            L->curr->prev = new;
-            L->curr = new;
-            //increases the vealue of nitems
-            L->nitems++;
-        }
-    
-    }
-}
-
-
-
-
-
-
-
-// insert an item after current item
-// new item becomes current item
-void DLListAfter(DLList L, char *it)
-{
-
-	assert(L != NULL); 
-    //Creates a new node to be placed in the list
-    DLListNode *new = newDLListNode(it);
-    
-
-    //if the list empty
-    if (L->nitems == 0) {
-        L->curr = new;
-        L->last = new;
-        L->first = new;
-        //increases the value of nitems
-        L->nitems++;
-
-    } else {
-        
-        if (L->curr == L->last){
-            new->prev = L->last;
-            L->last->next = new;
-            L->last = new;
-            L->curr = new;
-            L->nitems++;
-
-        } else {
-
-            new->next = L->curr->next;
-            new->prev = L->curr;
-            L->curr->next->prev = new;
-            L->curr->next = new;
-            L->curr = new;
-            //increases the value of nitems
-            L->nitems++;
-        }
-    
-    }
-}
-
-
-
-
-
 
 // return number of elements in a list
 int DLListLength(DLList L)
@@ -478,11 +226,6 @@ int DLListLength(DLList L)
 	return (L->nitems);
 }
 
-// is the list empty?
-int DLListIsEmpty(DLList L)
-{
-	return (L->nitems == 0);
-}
 
 int Length(DLList L){
     int length = 0;
@@ -522,8 +265,7 @@ char * valueReturn(DLList L, int x){
         i++; 
 
     }
-    //printf("Return function \n");
-    //printf("Returning the value %s \n", curr->value);
+
     return(curr->value);  
   
 
@@ -606,16 +348,15 @@ int elementExists (DLList L, char* word){
 
     while(curr->next != NULL){
 
-        //printf(GREEN"comparing given word %s with current word %s, strcmp value is %d \n"RESET,word,curr->value,(strcmp(word,curr->value)));
+
         if (strcmp(word, curr->value) == 0){
             // then the word has been found 
             exists = exists + 1;
-           // printf("%s has been found\n",word);
             return exists;
         }
         else{         
             // Leave check as is 
-           // printf("%s has not been found \n",word);
+       
         }
 
         curr = curr->next;
@@ -631,20 +372,15 @@ int elementIsUrl(DLList D, char *oldWord){
     int IsUrl = 0; 
     DLListNode *curr; 
     curr = D->first;
-   // char * word = NULL; 
-
-     
-    //printf("The old word is %s\n", oldWord);
-
 
     if (D->first == NULL){
         if(strcmp(oldWord,D->first->value)==0){
             IsUrl = IsUrl +1;
-            //printf(GREEN"WORD IS A URL\n"RESET);
+            
             return IsUrl;
         }
         else {
-               // printf("%s IsURL value is %d \n", oldWord, IsUrl);
+             
                 
             }
 
@@ -658,13 +394,11 @@ int elementIsUrl(DLList D, char *oldWord){
         if (strcmp(oldWord, curr->value) == 0){
             // then the word has been found 
             IsUrl++;
-            //printf(GREEN"WORD IS A URL \n" RESET);
+           
             return IsUrl;
 
         }
-        else {   
-           
-                //printf("%s IsURL value is %d \n", oldWord, IsUrl);      
+        else {         
                 
             } 
 
@@ -689,10 +423,9 @@ char * normalise (char* str){
 }
 
 char * removegrammar (char * str){
-   // printf("The word is %s\n", str);
-   // printf("The max value of p is  %lu\n", strlen(str));
+   
   for(int p = 0; p<=(strlen(str));p++){
-        if(str[p]=='.' || str[p]==','){
+        if(str[p]=='.'|| str[p]==','|| str[p]=='?'|| str[p]=='!'){
             str[p]='\0';
         }
     

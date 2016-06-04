@@ -13,25 +13,26 @@
 #define BROWN "\x1b[0;33m"
 #define RESET "\x1b[0m"
 
+	BSTree Q; 
+	BSTree *ptr;
+	DLList listOfCollection; 
+	DLList AllWords;
+	DLList WithoutTxt;
+	FILE *f;
+	FILE *sizefile;
+
+	int found;
+	int N;
+	int size;
+	char * txt = ".txt";
+	char * urltx = NULL; 
+	char * url = NULL; 
+	char * URLname = NULL;
+	char * searchTerm = NULL; 
+	
 
 
 void InvertedIndex(void){
-	BSTree Q; 
-	DLList listOfCollection; 
-	DLList AllWords;
-	BSTree *ptr;
-	DLList WithoutTxt;
-	
-
-	char * txt = ".txt";
-	FILE *f;
-	char* urltx = NULL; 
-	char * url = NULL; 
-	char * URLname;
-	int N;
-	char * searchTerm; 
-	searchTerm = (char *)malloc(3);
-	int found;
 
     listOfCollection = CollectionToList(); 
 	N = Length(listOfCollection);
@@ -43,9 +44,12 @@ void InvertedIndex(void){
 	url = valueReturn(listOfCollection,i);
 	urltx = strcat(url,txt);
 	f = fopen(urltx, "r");
-	Q = getBSTree(f);
+	sizefile = fopen(urltx, "r");
+	size = sizeOfFile(sizefile);
+	Q = getBSTree(f,size);
 	ptr[i]= Q; 
 	fclose(f);
+	fclose(sizefile);
 	}
 
 	WithoutTxt = CollectionToList();
