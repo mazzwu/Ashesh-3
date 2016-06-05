@@ -13,10 +13,6 @@
 #include "DLList.h"
 #include "Inverted.h"
 
-#define GREEN "\x1b[1;32m"
-#define BROWN "\x1b[0;33m"
-#define RESET "\x1b[0m"
-
 BSTree Q;
 BSTree *ptr;
 DLList listOfCollection;
@@ -88,23 +84,23 @@ void InvertedIndex(void){
     
 }
 
-DLList CollectionToList(void){
-    DLList D;
-    D =newDLList();
+List CollectionToList(void){
+    List D;
+    D =newList();
     FILE *collection = fopen("collection.txt", "r");
-    D= FileAppendDLList(collection,D);
+    D= FileAppendList(collection,D);
     fclose(collection);
     return D;
 }
 
-int LengthOfCollection(DLList D){
+int LengthOfCollection(List D){
     int N = Length(D);
     return N;
 }
 
-DLList AllWordsToList(int N,DLList listOfCollection, DLList WithoutTxt){
-    DLList AllWords;
-    AllWords = newDLList();
+List AllWordsToList(int N,List listOfCollection, List WithoutTxt){
+    List AllWords;
+    AllWords = newList();
     int x = 0;
     for (x = 0; x < N; x++){
         char *UrlWithT = valueReturn(listOfCollection,x);
