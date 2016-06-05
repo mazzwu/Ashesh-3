@@ -6,6 +6,7 @@
 #define INVERTED_H
 
 #include <stdio.h>
+#include "List.h"
 
 List CollectionToList(void);
 
