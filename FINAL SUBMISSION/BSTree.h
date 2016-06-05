@@ -19,7 +19,8 @@ int BSTreeFind(BSTree, char *);
 //BSTree BSTreeDelete(BSTree, char *);
 
 BSTree getBSTree(FILE *, int);
-
+char * norm (char *);
+char * removeg (char * str);
 
 void treeTraverse(BSTree);
 
