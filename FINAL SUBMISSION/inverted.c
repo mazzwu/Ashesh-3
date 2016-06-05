@@ -10,14 +10,14 @@
 #include <string.h>
 
 #include "BSTree.h"
-#include "DLList.h"
+#include "List.h"
 #include "Inverted.h"
 
 BSTree Q;
 BSTree *ptr;
-DLList listOfCollection;
-DLList AllWords;
-DLList WithoutTxt;
+List listOfCollection;
+List AllWords;
+List WithoutTxt;
 FILE *f;
 FILE *sizefile;
 
