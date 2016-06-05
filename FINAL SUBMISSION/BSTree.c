@@ -101,8 +101,8 @@ BSTree getBSTree(FILE *urlFILE, int size){
         wordArray[i] = malloc(sizeof(char));
         fscanf(urlFILE, "%s", wordArray[i]);
         
-        normalised = normalise(wordArray[i]);
-        removedgrammar = removegrammar(normalised);
+        normalised = norm(wordArray[i]);
+        removedgrammar = removeg(normalised);
         T = BSTreeInsert(T, removedgrammar);
     }
     
@@ -132,7 +132,28 @@ int sizeOfFile(FILE *urlFILE){
     return filesize;
 }
 
+char * norm (char* str){
+  int i;
+  for(i=0;i<=strlen(str);i++){
+      if(str[i]>=65&&str[i]<=90)
+       str[i]=str[i]+32;
+  }
 
+  return str;
+}
+
+char * removeg (char * str){
+    int p = 0;
+  for(p = 0; p<=(strlen(str));p++){
+        if(str[p]=='.'|| str[p]==','|| str[p]=='?'|| str[p]=='!'){
+            str[p]='\0';
+        }
+    
+  }
+
+  return str;
+
+}
 
 
 
